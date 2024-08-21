@@ -49,9 +49,12 @@ inputBtn.addEventListener("click", function () {
   render(myLeads);
 });
 
-deleteBtn.addEventListener("dblclick", function () {
-  localStorage.clear();
-  myLeads = [];
-  render(myLeads);
-});
+deleteBtn.addEventListener("click", function () {
+  const confirmDelete = confirm("Are you sure you want to delete all leads?");
 
+  if (confirmDelete) {
+    localStorage.clear();
+    myLeads = [];
+    render(myLeads);
+  }
+});
