@@ -55,10 +55,12 @@ copyBtn.addEventListener("click", () => {
 });
 
 const addNewLead = (value) => {
-  myLeads.push(value);
-  inputEl.value = "";
-  localStorage.setItem("myLeads", JSON.stringify(myLeads));
-  render(myLeads);
+  if (value) {
+    myLeads.push(value);
+    inputEl.value = "";
+    localStorage.setItem("myLeads", JSON.stringify(myLeads));
+    render(myLeads);
+  }
 };
 
 inputBtn.addEventListener("click", () => addNewLead(inputEl.value));
