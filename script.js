@@ -7,20 +7,7 @@ const deleteBtn = document.getElementById("delete-btn");
 const copyBtn = document.getElementById("copy-btn");
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
 
-if (leadsFromLocalStorage) {
-  myLeads = leadsFromLocalStorage;
-  render(myLeads);
-}
-
-tabBtn.addEventListener("click", function () {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    myLeads.push(tabs[0].url);
-    localStorage.setItem("myLeads", JSON.stringify(myLeads));
-    render(myLeads);
-  });
-});
-
-function render(leads) {
+const render = (leads) => {
   let listItems = "";
   for (let i = 0; i < leads.length; i++) {
     listItems += `
@@ -35,7 +22,7 @@ function render(leads) {
 
   ulEl.innerHTML = listItems;
 
-  document.querySelectorAll(".delete-this-btn").forEach(function (btn) {
+  document.querySelectorAll(".delete-this-btn").forEach((btn) => {
     btn.addEventListener("click", (event) => {
       const index = parseInt(event.target.getAttribute("data-index"));
 
@@ -44,24 +31,37 @@ function render(leads) {
       render(myLeads);
     });
   });
+};
+
+if (leadsFromLocalStorage) {
+  myLeads = leadsFromLocalStorage;
+  render(myLeads);
 }
 
+tabBtn.addEventListener("click", () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    myLeads.push(tabs[0].url);
+    localStorage.setItem("myLeads", JSON.stringify(myLeads));
+    render(myLeads);
+  });
+});
+
 let copyLeads = "";
-copyBtn.addEventListener("click", function () {
+copyBtn.addEventListener("click", () => {
   for (let i = 0; i < myLeads.length; i++) {
     copyLeads += `${myLeads[i]}\n`;
   }
   navigator.clipboard.writeText(copyLeads);
 });
 
-inputBtn.addEventListener("click", function () {
+inputBtn.addEventListener("click", () => {
   myLeads.push(inputEl.value);
   inputEl.value = "";
   localStorage.setItem("myLeads", JSON.stringify(myLeads));
   render(myLeads);
 });
 
-deleteBtn.addEventListener("click", function () {
+deleteBtn.addEventListener("click", () => {
   const confirmDelete = confirm("Are you sure you want to delete all leads?");
 
   if (confirmDelete) {
