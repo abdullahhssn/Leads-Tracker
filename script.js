@@ -54,11 +54,19 @@ copyBtn.addEventListener("click", () => {
   navigator.clipboard.writeText(copyLeads);
 });
 
-inputBtn.addEventListener("click", () => {
-  myLeads.push(inputEl.value);
+const addNewLead = (value) => {
+  myLeads.push(value);
   inputEl.value = "";
   localStorage.setItem("myLeads", JSON.stringify(myLeads));
   render(myLeads);
+};
+
+inputBtn.addEventListener("click", () => addNewLead(inputEl.value));
+
+inputEl.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    addNewLead(inputEl.value);
+  }
 });
 
 deleteBtn.addEventListener("click", () => {
