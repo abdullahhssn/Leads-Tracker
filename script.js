@@ -28,10 +28,22 @@ function render(leads) {
         <a href='${leads[i]}' target='_blank'>
           ${leads[i]} 
         </a>
+        <button class="delete-this-btn" data-index="${i}">Delete</button>
       </li>
     `;
   }
+
   ulEl.innerHTML = listItems;
+
+  document.querySelectorAll(".delete-this-btn").forEach(function (btn) {
+    btn.addEventListener("click", (event) => {
+      const index = parseInt(event.target.getAttribute("data-index"));
+
+      myLeads.splice(index, 1);
+      localStorage.setItem("myLeads", JSON.stringify(myLeads));
+      render(myLeads);
+    });
+  });
 }
 
 let copyLeads = "";
